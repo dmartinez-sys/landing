@@ -1,179 +1,389 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IM Digital Business School — Impulsa tu carrera</title>
-  <meta name="description" content="Fórmate con los mejores programas de negocio digital. Solicita información sin compromiso." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Global Máster en Marketing Digital, Comunicación y Emprendimiento con IA. Mejor escuela de Marketing Digital & IA en España 2025-2026. QS Stars 5 estrellas.">
+  <title>Global Máster en Marketing Digital, Comunicación y Emprendimiento con IA | IM</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='18' fill='white'>IM</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container header__inner">
-      <a href="#" class="logo">
-        <span class="logo__im">IM</span>
-        <span class="logo__text">Digital Business School</span>
-      </a>
-      <a href="#formulario" class="btn btn--outline btn--sm">Solicitar información</a>
-    </div>
-  </header>
+<!-- ── URGENCY BAR ── -->
+<div class="urgency">
+  <span class="urgency-dot"></span>
+  <span id="urgency-text">Convocatoria abierta · Cargando...</span>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero__inner">
-      <div class="hero__content">
-        <span class="badge">+20 años formando líderes digitales</span>
-        <h1 class="hero__title">Transforma tu carrera con la formación en negocio digital más reconocida</h1>
-        <p class="hero__subtitle">Másteres, MBAs y programas especializados 100&nbsp;% orientados al mercado. Aprende con docentes en activo y accede a una red de más de 30.000 alumni.</p>
-        <ul class="hero__bullets">
-          <li>✓ Modalidades presencial, online y blended</li>
-          <li>✓ Bolsa de empleo y prácticas en empresa</li>
-          <li>✓ Financiación flexible sin intereses</li>
-        </ul>
-        <a href="#formulario" class="btn btn--primary btn--lg">Quiero más información</a>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <img
+    class="im-logo"
+    src="https://www.im.education/upload/files/web/logo-im-nuevo-6025.png?t=3"
+    alt="IM Digital Business School"
+  >
+  <p class="hero-kicker">Global Máster · 24 meses · Doble titulación universitaria UTAMED</p>
+  <h1>
+    La escuela <span class="hl">#1</span> en<br>
+    Marketing Digital <span class="hl">& IA</span> en España.
+  </h1>
+  <p class="hero-sub">
+    Marketing Digital, Comunicación y Emprendimiento con IA.
+    Avalado por más de 30.000 profesionales.
+  </p>
+  <div class="cta-wrap">
+    <button class="btn-primary" onclick="document.getElementById('formulario').scrollIntoView({behavior:'smooth'})">
+      Quiero información →
+    </button>
+    <p class="cta-micro">Sin compromiso · Respuesta en <span>menos de 24h</span></p>
+  </div>
+</section>
+
+
+<!-- ── PROOF STRIP ── -->
+<div class="proof">
+  <div class="proof-item featured">
+    <span class="proof-icon">★</span>
+    <div class="proof-big"><em>5</em> Estrellas</div>
+    <div class="proof-label">QS Stars — Solo el 1% de escuelas en el mundo</div>
+  </div>
+  <div class="proof-item">
+    <span class="proof-icon">🏆</span>
+    <div class="proof-big">Mejor <em>Escuela</em></div>
+    <div class="proof-label">Marketing Digital & IA en España</div>
+    <div class="proof-years">
+      <span class="proof-year">2025</span>
+      <span class="proof-year">2026</span>
+    </div>
+  </div>
+  <div class="proof-item">
+    <span class="proof-icon">👥</span>
+    <div class="proof-big">+<em>30K</em></div>
+    <div class="proof-label">Profesionales formados en 20+ años</div>
+  </div>
+</div>
+
+
+<!-- ── QS STARS BLOCK ── -->
+<div class="qs-block">
+  <div>
+    <div class="qs-stars">
+      <span class="qs-star">★</span>
+      <span class="qs-star">★</span>
+      <span class="qs-star">★</span>
+      <span class="qs-star">★</span>
+      <span class="qs-star">★</span>
+    </div>
+    <div class="qs-title">QS Stars · 5 Estrellas</div>
+    <div class="qs-sub">Evaluación educativa internacional</div>
+  </div>
+  <div class="qs-sep"></div>
+  <div class="qs-claim">
+    <strong>Business School Premium.</strong>
+    Máxima calificación en calidad docente, empleabilidad,
+    innovación tecnológica y experiencia del alumno.
+    <div>
+      <span class="qs-badge">★ Solo el 1% de escuelas en el mundo</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── UTAMED ── -->
+<div class="utamed-strip">
+  <img
+    class="utamed-logo"
+    src="https://www.im.education/upload/files/web/utamed-6298.webp?t=1"
+    alt="Universidad UTAMED"
+  >
+  <div class="utamed-sep"></div>
+  <p class="utamed-text">
+    <strong>Doble titulación:</strong> Título propio de <strong>Universidad UTAMED</strong>
+    (nivel 7 EQF, EEES) + <strong>Professional Mastery Program</strong> de IM Digital
+    Business School. Formación Permanente conforme a la LOSU y RD 822/2021.
+  </p>
+</div>
+
+
+<!-- ── TICKER LOGOS ── -->
+<div class="ticker-wrap">
+  <p class="ticker-label">Acreditaciones y reconocimientos internacionales</p>
+  <div class="ticker" id="ticker">
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/qs.png?t=1774636407" alt="QS Stars"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/nqa.png?t=1774636407" alt="ISO 9001"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/excellence.png?t=1774636407" alt="European Excellence"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/unesco.png?t=1774636407" alt="UNESCO"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/ukas.png?t=1774636407" alt="UNE 66181"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/qec.png?t=1774636407" alt="QEC 21001"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/docencia.png?t=1774636407" alt="Certificado Excelencia"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/confianza.png?t=1774636407" alt="Confianza Online"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/student.png?t=1774636407" alt="DondeEstudiar"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/fm.png?t=1774636407" alt="Financial Magazine"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/mastermania.png?t=1774636407" alt="Mastermania"></div>
+    <!-- Duplicado para loop infinito -->
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/qs.png?t=1774636407" alt="QS Stars"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/nqa.png?t=1774636407" alt="ISO 9001"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/excellence.png?t=1774636407" alt="European Excellence"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/unesco.png?t=1774636407" alt="UNESCO"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/ukas.png?t=1774636407" alt="UNE 66181"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/qec.png?t=1774636407" alt="QEC 21001"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/docencia.png?t=1774636407" alt="Certificado Excelencia"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/confianza.png?t=1774636407" alt="Confianza Online"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/student.png?t=1774636407" alt="DondeEstudiar"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/fm.png?t=1774636407" alt="Financial Magazine"></div>
+    <div class="ticker-item"><img src="https://www.im.education/img/logos-ranking/mastermania.png?t=1774636407" alt="Mastermania"></div>
+  </div>
+</div>
+
+
+<!-- ── VÍDEO ── -->
+<section class="video-section">
+  <div class="section-center" style="margin-bottom:28px">
+    <p class="section-eyebrow">Sobre el programa</p>
+    <h2 class="section-title">Descubre el máster en 46 segundos</h2>
+    <p class="section-sub">Todo lo que necesitas saber antes de dar el paso</p>
+  </div>
+  <div class="video-wrap-full">
+    <iframe
+      src="https://www.youtube.com/embed/SJE-ahZ9Cc8?rel=0&modestbranding=1&playsinline=1"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      title="Global Máster en Marketing Digital · IM Education"
+    ></iframe>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ── FORMULARIO ── -->
+<section class="form-section" id="formulario">
+  <div class="section-center" style="margin-bottom:24px">
+    <p class="section-eyebrow">Sin compromiso</p>
+    <h2 class="section-title">Habla con un asesor hoy</h2>
+    <p class="section-sub">Rellena el formulario — te llamamos nosotros en menos de 24h</p>
+  </div>
+
+  <div class="form-card">
+    <!-- Mensaje éxito -->
+    <div class="msg-ok" id="msg-ok">
+      <h3>✓ Solicitud enviada</h3>
+      <p>Un asesor de IM se pondrá en contacto contigo en menos de 24h.</p>
+    </div>
+
+    <!-- Mensaje error -->
+    <p class="msg-err" id="msg-err"></p>
+
+    <div id="form-wrap">
+      <form id="lead-form" novalidate>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label for="f-nombre">Nombre <span class="req">*</span></label>
+            <input type="text" id="f-nombre" placeholder="Tu nombre completo" autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="f-email">Email <span class="req">*</span></label>
+            <input type="email" id="f-email" placeholder="tu@email.com" autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="f-telefono">Teléfono <span class="req">*</span></label>
+            <input type="tel" id="f-telefono" placeholder="+34 600 000 000" autocomplete="tel">
+          </div>
+
+          <div class="form-group">
+            <label for="f-estudios">Estudios <span class="req">*</span></label>
+            <select id="f-estudios">
+              <option value="" disabled selected>Nivel de estudios</option>
+              <option value="bachillerato_fp">Bachillerato / FP</option>
+              <option value="grado_universitario">Grado universitario</option>
+              <option value="master_posgrado">Máster o posgrado</option>
+              <option value="doctorado">Doctorado</option>
+              <option value="estudios_extranjero">Estudios en el extranjero</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label>Modalidad <span class="req">*</span></label>
+            <div class="mod-grid">
+              <div class="mod-option" data-val="presencial_bcn" onclick="selMod(this)">
+                <i class="ti ti-building" aria-hidden="true"></i>
+                <div><div class="mod-name">Presencial BCN</div><div class="mod-desc">Campus Barcelona</div></div>
+              </div>
+              <div class="mod-option" data-val="presencial_mad" onclick="selMod(this)">
+                <i class="ti ti-building" aria-hidden="true"></i>
+                <div><div class="mod-name">Presencial MAD</div><div class="mod-desc">Campus Madrid</div></div>
+              </div>
+              <div class="mod-option" data-val="videopresencial" onclick="selMod(this)">
+                <i class="ti ti-video" aria-hidden="true"></i>
+                <div><div class="mod-name">Video-presencial</div><div class="mod-desc">En directo online</div></div>
+              </div>
+              <div class="mod-option" data-val="100%_online" onclick="selMod(this)">
+                <i class="ti ti-world" aria-hidden="true"></i>
+                <div><div class="mod-name">100% Online</div><div class="mod-desc">A tu ritmo</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label for="f-motivacion">¿Por qué este máster? <span class="req">*</span></label>
+            <textarea id="f-motivacion" placeholder="Tu objetivo profesional en 2 líneas..."></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="f-observaciones">Observaciones</label>
+            <textarea id="f-observaciones" style="min-height:56px" placeholder="Dudas o cualquier cosa que quieras compartir"></textarea>
+          </div>
+
+        </div>
+
+        <button type="submit" id="submit-btn">
+          Quiero que me llamen →
+        </button>
+        <p class="form-privacy">
+          <i class="ti ti-lock" style="font-size:11px;vertical-align:-1px" aria-hidden="true"></i>
+          Datos protegidos · RGPD · Sin spam
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+
+<!-- ── TESTIMONIOS CARRUSEL ── -->
+<section class="testi-section">
+  <div class="testi-header">
+    <p class="section-eyebrow">Lo que dicen nuestros alumnos</p>
+    <h2 class="section-title">+30.000 carreras transformadas</h2>
+  </div>
+  <div class="track-wrap">
+    <div class="track">
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"Ha sido una de las mejores decisiones de mi vida. Formación potente, comunidad brutal y sensación constante de estar en el sitio adecuado, con la gente adecuada."</p>
+        <div class="testi-bottom"><div class="testi-avatar">LP</div><div><div class="testi-name">Leo Puig</div><div class="testi-role">Global Máster Digital Management</div></div></div>
       </div>
-      <div class="hero__form-wrap" id="formulario">
-        <div class="form-card">
-          <h2 class="form-card__title">Solicita información gratuita</h2>
-          <p class="form-card__sub">Te llamamos en menos de 24&nbsp;h.</p>
-
-          <form id="lead-form" novalidate>
-            <div class="field">
-              <label for="nombre">Nombre completo *</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Ana García" required />
-              <span class="field__error" id="error-nombre"></span>
-            </div>
-
-            <div class="field">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="email" placeholder="ana@correo.com" required />
-              <span class="field__error" id="error-email"></span>
-            </div>
-
-            <div class="field">
-              <label for="telefono">Teléfono *</label>
-              <input type="tel" id="telefono" name="telefono" placeholder="+34 600 000 000" required />
-              <span class="field__error" id="error-telefono"></span>
-            </div>
-
-            <div class="field">
-              <label for="programa">Programa de interés</label>
-              <select id="programa" name="programa">
-                <option value="">— Selecciona un programa —</option>
-                <option value="MBA">MBA Digital</option>
-                <option value="master-marketing">Máster en Marketing Digital</option>
-                <option value="master-ecommerce">Máster en eCommerce</option>
-                <option value="master-datos">Máster en Data &amp; Analytics</option>
-                <option value="master-direccion">Máster en Dirección de Empresas</option>
-                <option value="otro">Otro / No sé aún</option>
-              </select>
-            </div>
-
-            <div class="field field--checkbox">
-              <label class="checkbox-label">
-                <input type="checkbox" id="privacidad" name="privacidad" required />
-                <span>He leído y acepto la <a href="#" target="_blank">política de privacidad</a> *</span>
-              </label>
-              <span class="field__error" id="error-privacidad"></span>
-            </div>
-
-            <button type="submit" class="btn btn--primary btn--full" id="submit-btn">
-              <span id="btn-text">Solicitar información</span>
-              <span id="btn-spinner" class="spinner" hidden></span>
-            </button>
-
-            <div id="form-success" class="form-feedback form-feedback--success" hidden>
-              ✅ ¡Solicitud recibida! Te contactaremos en breve.
-            </div>
-            <div id="form-error" class="form-feedback form-feedback--error" hidden>
-              ❌ Algo falló. Por favor, inténtalo de nuevo.
-            </div>
-          </form>
-        </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"IM estuvo ahí. No solo con formación de calidad, también con comprensión, empatía y humanidad. Marcó un antes y un después en mi vida."</p>
+        <div class="testi-bottom"><div class="testi-avatar">EH</div><div><div class="testi-name">Esteban Hernández</div><div class="testi-role">Dual Máster Marketing Digital</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"En IM se toman en serio lo de los proyectos personales. Me llamaron para preguntarme si tenía uno y si querían darme visibilidad."</p>
+        <div class="testi-bottom"><div class="testi-avatar">AL</div><div><div class="testi-name">Alumni IM</div><div class="testi-role">Máster en IA Aplicada</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">LinkedIn</span></div>
+        <p class="testi-text">"La parte de IA aplicada es una ventaja enorme frente a otros candidatos. Conseguí trabajo antes de terminar el máster."</p>
+        <div class="testi-bottom"><div class="testi-avatar">MG</div><div><div class="testi-name">María García</div><div class="testi-role">Marketing Manager · 2024</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"Combiné trabajo y máster sin problema. El acompañamiento de 15 meses después del programa es lo que realmente marca la diferencia."</p>
+        <div class="testi-bottom"><div class="testi-avatar">SC</div><div><div class="testi-name">Sergio Campos</div><div class="testi-role">Digital Consultant · 2024</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"Visión 360 real: desde SEO y Social Ads hasta Growth Hacking. Todo conectado y aplicable desde el primer día."</p>
+        <div class="testi-bottom"><div class="testi-avatar">AP</div><div><div class="testi-name">Ana Puig</div><div class="testi-role">Head of Growth · 2023</div></div></div>
+      </div>
+      <!-- Duplicado para loop infinito -->
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"Ha sido una de las mejores decisiones de mi vida. Formación potente, comunidad brutal y sensación constante de estar en el sitio adecuado, con la gente adecuada."</p>
+        <div class="testi-bottom"><div class="testi-avatar">LP</div><div><div class="testi-name">Leo Puig</div><div class="testi-role">Global Máster Digital Management</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"IM estuvo ahí. No solo con formación de calidad, también con comprensión, empatía y humanidad. Marcó un antes y un después en mi vida."</p>
+        <div class="testi-bottom"><div class="testi-avatar">EH</div><div><div class="testi-name">Esteban Hernández</div><div class="testi-role">Dual Máster Marketing Digital</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">LinkedIn</span></div>
+        <p class="testi-text">"La parte de IA aplicada es una ventaja enorme frente a otros candidatos. Conseguí trabajo antes de terminar el máster."</p>
+        <div class="testi-bottom"><div class="testi-avatar">MG</div><div><div class="testi-name">María García</div><div class="testi-role">Marketing Manager · 2024</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"Combiné trabajo y máster sin problema. El acompañamiento de 15 meses después del programa es lo que realmente marca la diferencia."</p>
+        <div class="testi-bottom"><div class="testi-avatar">SC</div><div><div class="testi-name">Sergio Campos</div><div class="testi-role">Digital Consultant · 2024</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-top"><div class="testi-stars">★★★★★</div><span class="testi-source">Google</span></div>
+        <p class="testi-text">"Visión 360 real: desde SEO y Social Ads hasta Growth Hacking. Todo conectado y aplicable desde el primer día."</p>
+        <div class="testi-bottom"><div class="testi-avatar">AP</div><div><div class="testi-name">Ana Puig</div><div class="testi-role">Head of Growth · 2023</div></div></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- LOGOS / SOCIAL PROOF -->
-  <section class="logos">
-    <div class="container">
-      <p class="logos__label">Empresas donde trabajan nuestros alumni</p>
-      <div class="logos__grid">
-        <span class="logo-item">Google</span>
-        <span class="logo-item">Amazon</span>
-        <span class="logo-item">BBVA</span>
-        <span class="logo-item">Telefónica</span>
-        <span class="logo-item">Inditex</span>
-        <span class="logo-item">Santander</span>
-      </div>
-    </div>
-  </section>
 
-  <!-- BENEFICIOS -->
-  <section class="benefits">
-    <div class="container">
-      <h2 class="section-title">¿Por qué elegir IM?</h2>
-      <div class="benefits__grid">
-        <div class="benefit-card">
-          <div class="benefit-card__icon">🎓</div>
-          <h3>Docentes en activo</h3>
-          <p>Aprende de directivos y profesionales que trabajan cada día en el sector.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-card__icon">🌐</div>
-          <h3>Red global de alumni</h3>
-          <p>Más de 30.000 profesionales en todo el mundo listos para apoyar tu carrera.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-card__icon">💼</div>
-          <h3>Inserción laboral</h3>
-          <p>Servicio de bolsa de empleo y prácticas con más de 1.500 empresas colaboradoras.</p>
-        </div>
-        <div class="benefit-card">
-          <div class="benefit-card__icon">📅</div>
-          <h3>Flexibilidad total</h3>
-          <p>Elige la modalidad que mejor encaje con tu vida: presencial, online o blended.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- ── STATS ── -->
+<div class="stats-row">
+  <div class="stat-item"><div class="stat-num">+<em>30K</em></div><div class="stat-label">Alumnos formados</div></div>
+  <div class="stat-item"><div class="stat-num"><em>20</em>+ años</div><div class="stat-label">Especialización exclusiva</div></div>
+  <div class="stat-item"><div class="stat-num">+<em>180</em></div><div class="stat-label">Empresas colaboradoras</div></div>
+</div>
 
-  <!-- TESTIMONIO -->
-  <section class="testimonial">
-    <div class="container testimonial__inner">
-      <blockquote>
-        <p>"El MBA de IM me abrió las puertas a una dirección regional en menos de un año. La red de contactos no tiene precio."</p>
-        <footer>— Carlos M., Director de Operaciones en Amazon</footer>
-      </blockquote>
-    </div>
-  </section>
 
-  <!-- CTA FINAL -->
-  <section class="cta-final">
-    <div class="container cta-final__inner">
-      <h2>¿Listo para dar el salto?</h2>
-      <p>Plazas limitadas por edición. Solicita información hoy sin compromiso.</p>
-      <a href="#formulario" class="btn btn--primary btn--lg">Quiero más información</a>
-    </div>
-  </section>
+<!-- ── CTA FINAL ── -->
+<section class="cta-final">
+  <div class="cta-tag">
+    <i class="ti ti-clock" style="font-size:10px" aria-hidden="true"></i>
+    <span id="cta-date">Últimas plazas</span>
+  </div>
+  <h2>¿Esperando el momento<br>perfecto? Ya llegó.</h2>
+  <p>Un asesor te lo explica todo en una llamada.<br>Sin compromiso.</p>
+  <div class="cta-row">
+    <button class="btn-primary" onclick="document.getElementById('formulario').scrollIntoView({behavior:'smooth'})">
+      Solicitar información →
+    </button>
+    <button class="btn-ghost">
+      <i class="ti ti-phone" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i>
+      Llamar ahora
+    </button>
+  </div>
+  <p class="cta-footer">
+    IM Digital Business School · im.education ·
+    Mejor escuela de Marketing Digital & IA en España 2025 · 2026
+  </p>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <p>&copy; 2026 IM Digital Business School. Todos los derechos reservados.</p>
-      <nav class="footer__links">
-        <a href="#">Política de privacidad</a>
-        <a href="#">Aviso legal</a>
-        <a href="#">Cookies</a>
-      </nav>
-    </div>
-  </footer>
 
-  <script src="form.js"></script>
+<!-- ── SCRIPTS ── -->
+<script src="form.js"></script>
+<script>
+function selMod(el) {
+  document.querySelectorAll('.mod-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+(function() {
+  const MESES = [
+    'enero','febrero','marzo','abril','mayo','junio',
+    'julio','agosto','septiembre','octubre','noviembre','diciembre'
+  ];
+  const now     = new Date();
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const mes     = MESES[now.getMonth()];
+  const txt     = `Convocatoria abierta · Últimas plazas · Cierre ${lastDay} de ${mes}`;
+  const ctaTxt  = `Últimas plazas · Cierre ${lastDay} de ${mes}`;
+
+  const urgEl = document.getElementById('urgency-text');
+  const ctaEl = document.getElementById('cta-date');
+  if (urgEl) urgEl.textContent = txt;
+  if (ctaEl) ctaEl.textContent = ctaTxt;
+})();
+</script>
+
 </body>
 </html>

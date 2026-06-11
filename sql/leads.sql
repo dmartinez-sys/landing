@@ -12,11 +12,20 @@ create table if not exists public.leads (
   nombre          text              not null,
   email           text              not null,
   telefono        text              not null,
-  programa        text,
+  estudios        text,
+  modalidad       text,
+  motivacion      text,
+  observaciones   text,
+
+  -- Geolocalización por idioma del navegador
+  pais            text              not null default 'España',
+  iso_pais        text              not null default 'ES',
 
   -- Trazabilidad del webhook
   webhook_status  text              not null default 'pending'
                   check (webhook_status in ('pending', 'sent', 'failed')),
+  webhook_sent_at timestamptz,
+  webhook_error   text,
 
   -- UTMs
   utm_source      text,
@@ -37,22 +46,15 @@ create index if not exists leads_webhook_status_idx on public.leads (webhook_sta
 -- ============================================================
 alter table public.leads enable row level security;
 
--- Sólo el service_role puede leer y escribir desde el backend.
--- El anon key sólo puede insertar (el formulario lo necesita).
-create policy "anon can insert leads"
-  on public.leads
-  for insert
-  to anon
-  with check (true);
+-- Políticas abiertas (el formulario necesita insertar; el anon key solo inserta desde el frontend)
+create policy "Insert público" on public.leads for insert with check (true);
+create policy "Select público" on public.leads for select using (true);
+create policy "Update público" on public.leads for update using (true);
 
--- Para leer o actualizar desde el cliente usa el service_role key
--- (nunca expongas el service_role key en frontend).
-create policy "service role full access"
-  on public.leads
-  for all
-  to service_role
-  using (true)
-  with check (true);
+-- GRANTs necesarios para el anon key (REST API)
+grant usage on schema public to anon;
+grant insert, select, update on public.leads to anon;
+grant usage, select on sequence public.leads_id_seq to anon;
 
 -- ============================================================
 -- Vista resumen para el panel de Supabase
@@ -60,11 +62,12 @@ create policy "service role full access"
 create or replace view public.leads_summary as
 select
   date_trunc('day', created_at) as dia,
+  pais,
   utm_source,
   utm_campaign,
-  programa,
+  modalidad,
   webhook_status,
   count(*)                      as total
 from public.leads
-group by 1, 2, 3, 4, 5
+group by 1, 2, 3, 4, 5, 6
 order by 1 desc;
