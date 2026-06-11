@@ -56,7 +56,7 @@ body {
   backdrop-filter: blur(10px);
   position: sticky; top: 40px; z-index: 99;
 }
-.nav-logo { height: 26px; display: block; }
+.nav-logo { height: 26px; display: block; filter: invert(1); }
 .nav-cta {
   background: var(--teal); color: #fff;
   border: none; padding: 9px 20px;
