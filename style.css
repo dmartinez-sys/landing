@@ -73,15 +73,12 @@ body {
 }
 .hero > * { position: relative; z-index: 1; }
 
-.im-logo-text {
-  font-size: 24px;
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -.02em;
-  margin-bottom: 20px;
+.im-logo {
+  height: 48px;
   display: block;
+  margin: 0 auto 24px;
+  filter: invert(1);
 }
-.im-logo-text span { color: var(--teal); }
 
 .master-name {
   font-size: clamp(26px, 4vw, 46px);
