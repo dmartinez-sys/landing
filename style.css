@@ -66,7 +66,7 @@ body {
   margin: 0 auto;
   padding: 16px 64px;
 }
-.nav-logo { height: 44px; display: block; }
+.nav-logo { height: 88px; display: block; mix-blend-mode: multiply; }
 .nav-cta {
   background: var(--teal);
   color: #fff;
