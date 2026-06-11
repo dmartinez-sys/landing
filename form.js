@@ -154,14 +154,17 @@ async function handleSubmit(e) {
 
   // Recoger datos del formulario
   const utms = getUTMs();
+  const geo  = getPais();
   const fields = {
-    nombre:       document.getElementById('f-nombre').value,
-    email:        document.getElementById('f-email').value,
-    telefono:     document.getElementById('f-telefono').value,
-    estudios:     document.getElementById('f-estudios').value,
-    modalidad:    document.querySelector('.mod-opt.sel')?.dataset.val || '',
-    motivacion:   document.getElementById('f-motivacion').value,
-    observaciones:document.getElementById('f-observaciones').value,
+    nombre:        document.getElementById('f-nombre').value,
+    email:         document.getElementById('f-email').value,
+    telefono:      document.getElementById('f-telefono').value,
+    estudios:      document.getElementById('f-estudios').value,
+    modalidad:     document.querySelector('.mod-opt.sel')?.dataset.val || '',
+    motivacion:    document.getElementById('f-motivacion').value,
+    observaciones: document.getElementById('f-observaciones').value,
+    pais:          geo.pais,
+    iso_pais:      geo.iso_pais,
     ...utms
   };
 
