@@ -73,7 +73,14 @@ body {
 }
 .hero > * { position: relative; z-index: 1; }
 
-.im-logo { height: 32px; filter: brightness(0) invert(1); display: block; margin: 0 auto 28px; }
+.im-logo-text {
+  font-size: 28px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -.02em;
+  margin-bottom: 28px;
+}
+.im-logo-text span { color: var(--teal); }
 
 .hero-kicker {
   font-size: 10px; font-weight: 700;
@@ -190,8 +197,8 @@ body {
 .ticker:hover { animation-play-state: paused; }
 @keyframes tickerScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 .ticker-item { display: flex; align-items: center; justify-content: center; padding: 0 26px; flex-shrink: 0; }
-.ticker-item img { height: 26px; object-fit: contain; filter: brightness(0) invert(1); opacity: .4; transition: opacity .2s; }
-.ticker-item:hover img { opacity: .85; }
+.ticker-item img { height: 32px; object-fit: contain; filter: none; opacity: .75; transition: opacity .2s; }
+.ticker-item:hover img { opacity: 1; }
 
 /* ── VÍDEO ── */
 .video-section { padding: 56px 48px; background: var(--bg-card); }
@@ -220,8 +227,8 @@ body {
 .ticker:hover { animation-play-state: paused; }
 @keyframes tickerScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 .ticker-item { display: flex; align-items: center; justify-content: center; padding: 0 26px; flex-shrink: 0; }
-.ticker-item img { height: 26px; object-fit: contain; filter: brightness(0) invert(1); opacity: .4; transition: opacity .2s; }
-.ticker-item:hover img { opacity: .85; }
+.ticker-item img { height: 32px; object-fit: contain; filter: none; opacity: .75; transition: opacity .2s; }
+.ticker-item:hover img { opacity: 1; }
 
 /* ── FORMULARIO ── */
 .form-section { padding: 56px 48px; background: var(--bg-surface); }
@@ -355,7 +362,7 @@ body {
 
 /* ── UTAMED STRIP ── */
 .utamed-strip { background: var(--bg-card); border-top: 1px solid var(--border-dim); border-bottom: 1px solid var(--border-dim); padding: 18px 48px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center; }
-.utamed-logo { height: 26px; filter: brightness(0) invert(1); opacity: .65; }
+.utamed-logo { height: 42px; filter: none; opacity: 1; }
 .utamed-sep { width: 1px; height: 30px; background: var(--border-dim); }
 .utamed-text { font-size: 11px; color: var(--text-hint); line-height: 1.6; max-width: 520px; }
 .utamed-text strong { color: var(--text-muted); font-weight: 600; }
