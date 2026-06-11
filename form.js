@@ -1,184 +1,220 @@
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
-// Supabase: reemplaza con tus credenciales o configura en Netlify como vars de entorno
-// e inyéctalas vía un netlify/functions/config.js si las quieres ocultas del cliente.
-const SUPABASE_URL    = 'https://PLACEHOLDER.supabase.co';
-const SUPABASE_ANON   = 'PLACEHOLDER_ANON_KEY';
+// =============================================
+// form.js — Global Máster IM Digital Business School
+// Flujo: UTMs → Supabase (backup) → Webhook CRM3C
+// =============================================
 
-// CRM3C — valores fijos para esta landing (Global Máster)
-const CRM_BASE_URL    = 'https://PLACEHOLDER_CRM3C_WEBHOOK_URL';
-const CRM_FIXED = {
-  crm:           15,
-  id_campanya:   97,
-  id_remitente:  468,
-  estado_crm:    808,
-  id_curso:      11651,   // Global Máster — cambiar por cada landing
+// ── CONFIGURACIÓN ────────────────────────────
+const CONFIG = {
+  supabase: {
+    url:     'TU_SUPABASE_URL',       // https://xxxx.supabase.co
+    anonKey: 'TU_SUPABASE_ANON_KEY',  // eyJhbGci...
+  },
+  crm: {
+    endpoint:    'https://www.crm3c.com/form/index.php',
+    crm:         '15',
+    id_campanya: '97',
+    id_remitente:'468',
+    id_curso:    '11651',   // ← cambia por landing
+    estado_crm:  '808',
+  }
 };
 
-// ─── UTM READER ──────────────────────────────────────────────────────────────
+// ── SUPABASE CLIENT (sin librería, fetch nativo) ──
+const sb = {
+  insert: async (data) => {
+    const res = await fetch(`${CONFIG.supabase.url}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         CONFIG.supabase.anonKey,
+        'Authorization': `Bearer ${CONFIG.supabase.anonKey}`,
+        'Prefer':        'return=representation'
+      },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const rows = await res.json();
+    return rows[0];
+  },
+  update: async (id, data) => {
+    await fetch(`${CONFIG.supabase.url}/rest/v1/leads?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         CONFIG.supabase.anonKey,
+        'Authorization': `Bearer ${CONFIG.supabase.anonKey}`,
+      },
+      body: JSON.stringify(data)
+    });
+  }
+};
+
+// ── LEER UTMs DE LA URL ───────────────────────
 function getUTMs() {
   const p = new URLSearchParams(window.location.search);
   return {
-    utm_source:   p.get('utm_source')   || '',
-    utm_medium:   p.get('utm_medium')   || '',
-    utm_campaign: p.get('utm_campaign') || '',
-    utm_term:     p.get('utm_term')     || '',
-    utm_content:  p.get('utm_content')  || '',
-    landing_url:  window.location.href,
+    utm_source:   p.get('utm_source')   || 'organic',
+    utm_medium:   p.get('utm_medium')   || null,
+    utm_campaign: p.get('utm_campaign') || null,
+    utm_content:  p.get('utm_content')  || null,
+    utm_term:     p.get('utm_term')     || null,
   };
 }
 
-// ─── SUPABASE HELPERS ─────────────────────────────────────────────────────────
-async function supabaseInsert(payload) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
-    method:  'POST',
-    headers: {
-      'Content-Type':  'application/json',
-      'apikey':         SUPABASE_ANON,
-      'Authorization': `Bearer ${SUPABASE_ANON}`,
-      'Prefer':        'return=representation',
-    },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) throw new Error(`Supabase insert error: ${res.status}`);
-  const data = await res.json();
-  return data[0];
+// ── DETECTAR PAÍS (por idioma del navegador) ──
+function getPais() {
+  const lang = navigator.language || 'es-ES';
+  const map  = { ES: 'España', MX: 'México', AR: 'Argentina',
+                 CO: 'Colombia', CL: 'Chile', PE: 'Perú' };
+  const iso  = (lang.split('-')[1] || 'ES').toUpperCase();
+  return { pais: map[iso] || 'España', iso_pais: iso };
 }
 
-async function supabaseUpdateStatus(id, status) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/leads?id=eq.${id}`, {
-    method:  'PATCH',
-    headers: {
-      'Content-Type':  'application/json',
-      'apikey':         SUPABASE_ANON,
-      'Authorization': `Bearer ${SUPABASE_ANON}`,
-    },
-    body: JSON.stringify({ webhook_status: status }),
-  });
-  if (!res.ok) console.warn('Supabase update failed:', res.status);
+// ── CONSTRUIR CAMPO comentarios ───────────────
+function buildComentarios(data) {
+  const parts = [
+    `Estudios: ${data.estudios || ''}`,
+    `Modalidad: ${(data.modalidad || '').replace(/\s+/g,'_')}`,
+    `Plataforma: ${data.utm_source || 'organic'}`,
+  ];
+  if (data.observaciones) parts.push(`Observaciones: ${data.observaciones}`);
+  if (data.utm_campaign)  parts.push(`Campaña: ${data.utm_campaign}`);
+  return parts.join(' | ');
 }
 
-// ─── CRM3C WEBHOOK ───────────────────────────────────────────────────────────
-async function fireCRM3C(lead) {
+// ── ENVIAR AL WEBHOOK CRM3C ───────────────────
+async function sendWebhook(data, leadId) {
+  const c = CONFIG.crm;
+  const geo = getPais();
+
   const params = new URLSearchParams({
-    ...CRM_FIXED,
-    nombre:   lead.nombre,
-    email:    lead.email,
-    telefono: lead.telefono,
-    programa: lead.programa || '',
-    ...Object.fromEntries(
-      Object.entries(lead.utms || {}).filter(([, v]) => v !== '')
-    ),
+    crm:          c.crm,
+    id_campanya:  c.id_campanya,
+    id_remitente: c.id_remitente,
+    id_curso:     c.id_curso,
+    estado_crm:   c.estado_crm,
+    nombre:       data.nombre,
+    email:        data.email,
+    telefono1:    data.telefono,
+    comentario:   geo.pais,
+    pais:         geo.pais,
+    iso_pais:     geo.iso_pais,
+    comentarios:  buildComentarios({ ...data }),
+    utm_source:   data.utm_source   || 'organic',
+    utm_campaign: data.utm_campaign || '',
+    utm_medium:   data.utm_medium   || '',
   });
-  const url = `${CRM_BASE_URL}?${params.toString()}`;
-  const res = await fetch(url, { method: 'GET', mode: 'no-cors' });
-  // no-cors → opaque response; asumir éxito si no lanza excepción
-  return res;
-}
-
-// ─── VALIDATION ──────────────────────────────────────────────────────────────
-const validators = {
-  nombre:    v => v.trim().length >= 2  ? '' : 'Introduce tu nombre completo.',
-  email:     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Email no válido.',
-  telefono:  v => /^\+?[\d\s\-]{7,15}$/.test(v.trim()) ? '' : 'Teléfono no válido.',
-  privacidad: v => v ? '' : 'Debes aceptar la política de privacidad.',
-};
-
-function validateField(name, value) {
-  return validators[name] ? validators[name](value) : '';
-}
-
-function showFieldError(name, msg) {
-  const el = document.getElementById(`error-${name}`);
-  const input = document.getElementById(name);
-  if (el)    el.textContent = msg;
-  if (input) input.classList.toggle('is-invalid', !!msg);
-}
-
-function validateForm(data) {
-  let valid = true;
-  ['nombre', 'email', 'telefono', 'privacidad'].forEach(name => {
-    const msg = validateField(name, data[name]);
-    showFieldError(name, msg);
-    if (msg) valid = false;
-  });
-  return valid;
-}
-
-// ─── UI HELPERS ───────────────────────────────────────────────────────────────
-function setLoading(loading) {
-  const btn     = document.getElementById('submit-btn');
-  const btnText = document.getElementById('btn-text');
-  const spinner = document.getElementById('btn-spinner');
-  btn.disabled         = loading;
-  btnText.textContent  = loading ? 'Enviando…' : 'Solicitar información';
-  spinner.hidden       = !loading;
-}
-
-function showFeedback(type) {
-  document.getElementById('form-success').hidden = type !== 'success';
-  document.getElementById('form-error').hidden   = type !== 'error';
-}
-
-// ─── MAIN SUBMIT HANDLER ─────────────────────────────────────────────────────
-document.getElementById('lead-form').addEventListener('submit', async function (e) {
-  e.preventDefault();
-
-  const formData = {
-    nombre:    document.getElementById('nombre').value,
-    email:     document.getElementById('email').value,
-    telefono:  document.getElementById('telefono').value,
-    programa:  document.getElementById('programa').value,
-    privacidad: document.getElementById('privacidad').checked,
-  };
-
-  if (!validateForm(formData)) return;
-
-  setLoading(true);
-  showFeedback(null);
-
-  const utms = getUTMs();
-  let leadId = null;
 
   try {
-    // 1. Guardar en Supabase con estado pendiente
-    const record = await supabaseInsert({
-      nombre:         formData.nombre,
-      email:          formData.email,
-      telefono:       formData.telefono,
-      programa:       formData.programa,
-      webhook_status: 'pending',
-      utm_source:     utms.utm_source,
-      utm_medium:     utms.utm_medium,
-      utm_campaign:   utms.utm_campaign,
-      utm_term:       utms.utm_term,
-      utm_content:    utms.utm_content,
-      landing_url:    utms.landing_url,
+    const res = await fetch(`${c.endpoint}?${params.toString()}`, {
+      method: 'GET',
+      mode:   'no-cors'  // CRM3C no devuelve CORS headers
     });
-    leadId = record?.id;
 
-    // 2. Disparar webhook CRM3C
-    await fireCRM3C({ ...formData, utms });
-
-    // 3. Actualizar estado a sent
-    if (leadId) await supabaseUpdateStatus(leadId, 'sent');
-
-    showFeedback('success');
-    this.reset();
+    // no-cors siempre es "opaque" — asumimos OK si no lanza
+    await sb.update(leadId, {
+      webhook_status:  'sent',
+      webhook_sent_at: new Date().toISOString()
+    });
+    return true;
 
   } catch (err) {
-    console.error('Lead submission error:', err);
-    if (leadId) await supabaseUpdateStatus(leadId, 'failed');
-    showFeedback('error');
-  } finally {
-    setLoading(false);
+    await sb.update(leadId, {
+      webhook_status: 'failed',
+      webhook_error:  err.message
+    });
+    return false;
   }
-});
+}
 
-// ─── INLINE VALIDATION ON BLUR ────────────────────────────────────────────────
-['nombre', 'email', 'telefono'].forEach(name => {
-  const el = document.getElementById(name);
-  if (!el) return;
-  el.addEventListener('blur', () => {
-    showFieldError(name, validateField(name, el.value));
+// ── VALIDACIÓN BÁSICA ─────────────────────────
+function validate(fields) {
+  const errors = [];
+  if (!fields.nombre.trim())   errors.push('El nombre es obligatorio');
+  if (!fields.email.trim() || !fields.email.includes('@'))
+                                errors.push('El email no es válido');
+  if (!fields.telefono.trim()) errors.push('El teléfono es obligatorio');
+  if (!fields.estudios)        errors.push('Selecciona tu nivel de estudios');
+  if (!fields.modalidad)       errors.push('Selecciona una modalidad');
+  if (!fields.motivacion.trim()) errors.push('Cuéntanos tu motivación');
+  return errors;
+}
+
+// ── SUBMIT PRINCIPAL ──────────────────────────
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const btn     = document.getElementById('submit-btn');
+  const msgOk   = document.getElementById('msg-ok');
+  const msgErr  = document.getElementById('msg-err');
+
+  // Limpiar mensajes previos
+  msgOk.style.display  = 'none';
+  msgErr.style.display = 'none';
+
+  // Recoger datos del formulario
+  const utms = getUTMs();
+  const fields = {
+    nombre:       document.getElementById('f-nombre').value,
+    email:        document.getElementById('f-email').value,
+    telefono:     document.getElementById('f-telefono').value,
+    estudios:     document.getElementById('f-estudios').value,
+    modalidad:    document.querySelector('.mod-opt.sel')?.dataset.val || '',
+    motivacion:   document.getElementById('f-motivacion').value,
+    observaciones:document.getElementById('f-observaciones').value,
+    ...utms
+  };
+
+  // Validar
+  const errors = validate(fields);
+  if (errors.length) {
+    msgErr.textContent   = errors[0];
+    msgErr.style.display = 'block';
+    return;
+  }
+
+  // Estado de carga
+  btn.disabled    = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    // 1. Guardar en Supabase (backup)
+    const lead = await sb.insert(fields);
+
+    // 2. Disparar webhook CRM3C
+    const webhookOk = await sendWebhook(fields, lead.id);
+
+    // 3. Feedback al usuario
+    document.getElementById('form-wrap').style.display = 'none';
+    msgOk.style.display = 'block';
+
+    if (!webhookOk) {
+      // Lead guardado pero webhook falló — no bloqueamos al usuario
+      console.warn('Webhook falló. Lead guardado en Supabase con status=failed');
+    }
+
+  } catch (err) {
+    console.error('Error al guardar lead:', err);
+    btn.disabled    = false;
+    btn.textContent = 'Solicitar información';
+    msgErr.textContent   = 'Ha ocurrido un error. Por favor inténtalo de nuevo.';
+    msgErr.style.display = 'block';
+  }
+}
+
+// ── SELECCIÓN DE MODALIDAD ────────────────────
+function selMod(el) {
+  document.querySelectorAll('.mod-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+// ── INIT ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('lead-form').addEventListener('submit', handleSubmit);
+
+  // Guardar UTMs en sessionStorage por si el usuario navega
+  const utms = getUTMs();
+  Object.entries(utms).forEach(([k,v]) => {
+    if (v) sessionStorage.setItem(k, v);
   });
 });
