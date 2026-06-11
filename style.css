@@ -65,7 +65,7 @@ body {
   margin: 0 auto;
   padding: 16px 64px;
 }
-.nav-logo { height: 88px; display: block; }
+.nav-logo { height: 132px; display: block; }
 .nav-cta {
   background: var(--teal);
   color: #fff;
@@ -476,7 +476,7 @@ body {
   display: flex; align-items: center; gap: 20px;
   flex-wrap: wrap; justify-content: center;
 }
-.utamed-logo { height: 52px; }
+.utamed-logo { height: 104px; }
 .utamed-sep { width: 1px; height: 56px; background: var(--border); }
 .utamed-text { font-size: 15px; color: var(--gray); line-height: 1.6; max-width: 520px; }
 .utamed-text strong { color: var(--black); font-weight: 600; }
