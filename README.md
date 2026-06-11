@@ -1,106 +1,128 @@
-# IM Digital Business School — Landing de captación de leads
+# IM Landing — Global Máster Marketing Digital
 
-Stack: HTML + CSS + JS vanilla · GitHub · Netlify · Supabase · Webhook CRM3C
+Landing de captación de leads con backup en Supabase + webhook CRM3C.
+
+## Estructura
+
+```
+im-landing/
+├── index.html      ← Landing completa
+├── style.css       ← Estilos
+├── form.js         ← Lógica: UTMs + Supabase + Webhook
+├── sql/
+│   └── leads.sql   ← Tabla Supabase (pegar en SQL Editor)
+└── README.md
+```
+
+---
+
+## Setup paso a paso
+
+### 1. Supabase — crear la tabla
+
+1. Entra en tu proyecto de Supabase
+2. Ve a **SQL Editor**
+3. Copia y pega el contenido de `sql/leads.sql`
+4. Ejecuta
+
+### 2. Supabase — obtener credenciales
+
+1. Ve a **Settings → API**
+2. Copia:
+   - **Project URL** → `https://xxxx.supabase.co`
+   - **anon public key** → `eyJhbGci...`
+
+### 3. Configurar form.js
+
+Abre `form.js` y sustituye las líneas 10-11:
+
+```javascript
+const CONFIG = {
+  supabase: {
+    url:     'https://xxxx.supabase.co',   // ← tu Project URL
+    anonKey: 'eyJhbGci...',                // ← tu anon key
+  },
+  ...
+}
+```
+
+### 4. Subir a GitHub
+
+```bash
+git init
+git add .
+git commit -m "feat: landing global master IM"
+git remote add origin https://github.com/TU_USUARIO/TU_REPO.git
+git push -u origin main
+```
+
+### 5. Conectar Netlify
+
+1. Entra en [netlify.com](https://netlify.com)
+2. **Add new site → Import from Git**
+3. Selecciona el repo de GitHub
+4. Deploy automático ✓
+
+Netlify te dará una URL tipo `https://nombre-random.netlify.app`
+
+### 6. Supabase — permitir el dominio
+
+1. Supabase → **Authentication → URL Configuration**
+2. Añade `https://nombre-random.netlify.app` en **Allowed Origins**
 
 ---
 
 ## Flujo de datos
 
 ```
-Usuario rellena formulario
-        │
-        ▼
-JS lee UTMs de la URL (?utm_source, utm_medium, utm_campaign…)
-        │
-        ▼
-Guarda lead en Supabase (webhook_status = pending)
-        │
-        ▼
-Dispara webhook GET a CRM3C con todos los parámetros
-        │
-        ▼
-Actualiza Supabase → sent  /  failed (si hay error)
+Usuario envía formulario
+        ↓
+Lee UTMs de la URL (?utm_source=ig&utm_medium=cpc...)
+        ↓
+Guarda en Supabase  [webhook_status = "pending"]
+        ↓
+Dispara webhook CRM3C
+        ↓
+  ✓ OK  →  actualiza Supabase [webhook_status = "sent"]
+  ✗ Error → actualiza Supabase [webhook_status = "failed"]
 ```
+
+## Reenviar leads fallidos
+
+En Supabase → **Table Editor → leads**, filtra por `webhook_status = failed`.
+Puedes reenviar manualmente o crear una función edge de Supabase para reintento automático.
 
 ---
 
-## Configuración
+## Añadir nueva landing (otro máster)
 
-### 1. Supabase
-
-1. Crea un proyecto en [supabase.com](https://supabase.com).
-2. Ejecuta `sql/leads.sql` en el **SQL Editor** de tu proyecto.
-3. Anota la **Project URL** y la **anon public key** (Settings → API).
-4. Añádelas en Netlify como variables de entorno (ver sección Netlify) **o** sustitúyelas directamente en `form.js`:
-
-```js
-const SUPABASE_URL  = 'https://xxxx.supabase.co';
-const SUPABASE_ANON = 'eyJhbGc...';
+1. Duplica `index.html` → p.ej. `master-marketing.html`
+2. En `form.js` cambia solo:
+```javascript
+id_curso: '11651',  // ← código del nuevo máster
 ```
-
-> ⚠️ La anon key es pública por diseño, pero la tabla tiene RLS activa: anon solo puede insertar, no leer.
-
-### 2. CRM3C Webhook
-
-Sustituye el placeholder en `form.js`:
-
-```js
-const CRM_BASE_URL = 'https://tu-crm3c-webhook-url.com/endpoint';
-```
-
-Valores fijos para esta landing (Global Máster):
-
-| Parámetro     | Valor |
-|---------------|-------|
-| crm           | 15    |
-| id_campanya   | 97    |
-| id_remitente  | 468   |
-| estado_crm    | 808   |
-| id_curso      | 11651 |
-
-Para otras landings solo cambia `id_curso` en `form.js`.
-
-### 3. Netlify
-
-1. Conecta el repositorio en [netlify.com](https://netlify.com).
-2. Publish directory: `/` (raíz del repo).
-3. Añade variables de entorno si usas Netlify Functions para ocultar las credenciales:
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON`
-   - `CRM3C_WEBHOOK_URL`
+O mejor: crea un `form-config.js` por landing con solo el `id_curso`.
 
 ---
 
-## Añadir una nueva landing (otro máster)
+## UTMs — ejemplos de URLs por canal
 
-1. Duplica la carpeta del proyecto.
-2. Cambia en `form.js`:
-   ```js
-   id_curso: NUEVO_ID,  // ID del curso en CRM3C
-   ```
-3. Actualiza textos en `index.html` (título, bullets, programa en el `<select>`).
-4. Despliega en Netlify como nuevo sitio o como subdirectorio.
-
----
-
-## Estructura de archivos
-
-```
-im-landing/
-├── index.html       ← Estructura y contenido de la landing
-├── style.css        ← Estilos (design system IM)
-├── form.js          ← Lógica: UTMs, Supabase, CRM3C
-├── sql/
-│   └── leads.sql    ← Schema, RLS y vista resumen para Supabase
-└── README.md
-```
+| Canal | URL |
+|---|---|
+| Instagram Ads | `?utm_source=ig&utm_medium=cpc&utm_campaign=master-oct25` |
+| Google Ads | `?utm_source=google&utm_medium=cpc&utm_campaign=master-oct25` |
+| SEO | `?utm_source=google&utm_medium=organic` |
+| Email | `?utm_source=newsletter&utm_medium=email` |
+| Reels orgánico | `?utm_source=ig&utm_medium=organic` |
 
 ---
 
-## Próximos pasos
+## Variables fijas CRM3C
 
-- [ ] Configurar credenciales Supabase en Netlify
-- [ ] Sustituir URL del webhook CRM3C
-- [ ] Añadir vídeo real cuando esté disponible
-- [ ] Crear landings adicionales para otros másteres (mismo base, distinto `id_curso`)
-- [ ] Configurar dominio final en Netlify
+| Campo | Valor |
+|---|---|
+| crm | 15 |
+| id_campanya | 97 |
+| id_remitente | 468 |
+| id_curso | 11651 ← Global Máster |
+| estado_crm | 808 |

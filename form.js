@@ -12,16 +12,45 @@ const CRM_FIXED = {
   id_curso:     11651,  // Global Máster — cambiar por cada landing
 };
 
-// ─── UTM READER ──────────────────────────────────────────────────────────────
+// ── SUPABASE CLIENT (sin librería, fetch nativo) ──
+const sb = {
+  insert: async (data) => {
+    const res = await fetch(`${CONFIG.supabase.url}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         CONFIG.supabase.anonKey,
+        'Authorization': `Bearer ${CONFIG.supabase.anonKey}`,
+        'Prefer':        'return=representation'
+      },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const rows = await res.json();
+    return rows[0];
+  },
+  update: async (id, data) => {
+    await fetch(`${CONFIG.supabase.url}/rest/v1/leads?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         CONFIG.supabase.anonKey,
+        'Authorization': `Bearer ${CONFIG.supabase.anonKey}`,
+      },
+      body: JSON.stringify(data)
+    });
+  }
+};
+
+// ── LEER UTMs DE LA URL ───────────────────────
 function getUTMs() {
   const p = new URLSearchParams(window.location.search);
   return {
-    utm_source:   p.get('utm_source')   || '',
-    utm_medium:   p.get('utm_medium')   || '',
-    utm_campaign: p.get('utm_campaign') || '',
-    utm_term:     p.get('utm_term')     || '',
-    utm_content:  p.get('utm_content')  || '',
-    landing_url:  window.location.href,
+    utm_source:   p.get('utm_source')   || 'organic',
+    utm_medium:   p.get('utm_medium')   || null,
+    utm_campaign: p.get('utm_campaign') || null,
+    utm_content:  p.get('utm_content')  || null,
+    utm_term:     p.get('utm_term')     || null,
   };
 }
 
@@ -195,7 +224,6 @@ document.getElementById('lead-form').addEventListener('submit', async function (
       utm_content:    utms.utm_content,
       landing_url:    utms.landing_url,
     });
-    leadId = record?.id;
 
     await fireCRM3C(data, utms);
 

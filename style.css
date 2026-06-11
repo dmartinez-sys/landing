@@ -211,6 +211,17 @@ body {
   position: absolute; inset: 0;
   width: 100%; height: 100%; border: none;
 }
+.ticker-label {
+  text-align: center; font-size: 9px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-hint); margin-bottom: 14px;
+}
+.ticker { display: flex; gap: 0; width: max-content; animation: tickerScroll 24s linear infinite; }
+.ticker:hover { animation-play-state: paused; }
+@keyframes tickerScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ticker-item { display: flex; align-items: center; justify-content: center; padding: 0 26px; flex-shrink: 0; }
+.ticker-item img { height: 26px; object-fit: contain; filter: brightness(0) invert(1); opacity: .4; transition: opacity .2s; }
+.ticker-item:hover img { opacity: .85; }
 
 /* ── FORMULARIO ── */
 .form-section { padding: 56px 48px; background: var(--bg-surface); }
