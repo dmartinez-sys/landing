@@ -6,7 +6,7 @@
 // ── CONFIGURACIÓN ────────────────────────────
 const CONFIG = {
   supabase: {
-    url:     'https://bktksksnthltjewpfrm.supabase.co',
+    url:     'https://bktksksrnthltjewpfrm.supabase.co',
     anonKey: 'sb_publishable_qydLZG5nAaofIQLoXkePxA_MFSH6Lfc',
   },
   crm: {
