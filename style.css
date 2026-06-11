@@ -51,8 +51,7 @@ body {
 /* ── NAV ── */
 .nav {
   border-bottom: 1px solid var(--border);
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   position: sticky;
   top: 40px;
   z-index: 99;
