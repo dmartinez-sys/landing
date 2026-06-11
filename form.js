@@ -108,7 +108,7 @@ async function sendWebhook(data, leadId) {
   try {
     await fetch(`${c.endpoint}?${params.toString()}`, {
       method: 'GET',
-      mode:   'no-cors'  // CRM3C no devuelve CORS headers
+      mode:   'no-cors'
     });
 
     await sb.update(leadId, {
@@ -157,7 +157,7 @@ async function handleSubmit(e) {
     email:         document.getElementById('f-email').value,
     telefono:      document.getElementById('f-telefono').value,
     estudios:      document.getElementById('f-estudios').value,
-    modalidad:     document.querySelector('.mod-opt.sel')?.dataset.val || '',
+    modalidad:     document.querySelector('.mod-option.selected')?.dataset.val || '',
     motivacion:    document.getElementById('f-motivacion').value,
     observaciones: document.getElementById('f-observaciones').value,
     pais:          geo.pais,
@@ -176,13 +176,9 @@ async function handleSubmit(e) {
   btn.textContent = 'Enviando...';
 
   try {
-    // 1. Guardar en Supabase
     const lead = await sb.insert(fields);
-
-    // 2. Disparar webhook CRM3C
     const webhookOk = await sendWebhook(fields, lead.id);
 
-    // 3. Feedback al usuario
     document.getElementById('form-wrap').style.display = 'none';
     msgOk.style.display = 'block';
 
@@ -193,16 +189,10 @@ async function handleSubmit(e) {
   } catch (err) {
     console.error('Error al guardar lead:', err);
     btn.disabled    = false;
-    btn.textContent = 'Solicitar información';
+    btn.textContent = 'Quiero que me llamen →';
     msgErr.textContent   = 'Ha ocurrido un error. Por favor inténtalo de nuevo.';
     msgErr.style.display = 'block';
   }
-}
-
-// ── SELECCIÓN DE MODALIDAD ────────────────────
-function selMod(el) {
-  document.querySelectorAll('.mod-opt').forEach(o => o.classList.remove('sel'));
-  el.classList.add('sel');
 }
 
 // ── INIT ──────────────────────────────────────
