@@ -50,12 +50,19 @@ body {
 
 /* ── NAV ── */
 .nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 48px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--border);
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(10px);
   position: sticky; top: 40px; z-index: 99;
+}
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 max(48px, calc((100vw - 1400px) / 2 + 48px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .nav-logo { height: 52px; display: block; filter: invert(1); }
 .nav-cta {
@@ -340,8 +347,14 @@ body {
 }
 
 /* ── TESTIMONIOS ── */
-.testi-section { padding: 96px 0; background: var(--light); overflow: hidden; }
-.testi-header { padding: 0 48px; margin-bottom: 40px; }
+.testi-section { padding: 96px 0; background: var(--light); overflow: hidden; padding-left: 0; padding-right: 0; }
+.testi-header {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: max(48px, calc((100vw - 1400px) / 2 + 48px));
+  padding-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
+  margin-bottom: 40px;
+}
 .testi-eyebrow { font-size: 14px; font-weight: 500; color: var(--teal); letter-spacing: .05em; margin-bottom: 10px; }
 .testi-title {
   font-size: clamp(48px, 5.5vw, 80px);
@@ -351,10 +364,10 @@ body {
 .track-wrap { position: relative; overflow: hidden; }
 .track-wrap::before,
 .track-wrap::after {
-  content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+  content: ''; position: absolute; top: 0; bottom: 0; z-index: 2; pointer-events: none;
 }
-.track-wrap::before { left: 0; background: linear-gradient(to right, var(--light), transparent); }
-.track-wrap::after  { right: 0; background: linear-gradient(to left, var(--light), transparent); }
+.track-wrap::before { left: 0; width: max(48px, calc((100vw - 1400px) / 2 + 48px)); background: linear-gradient(to right, var(--light), transparent); }
+.track-wrap::after  { right: 0; width: max(48px, calc((100vw - 1400px) / 2 + 48px)); background: linear-gradient(to left, var(--light), transparent); }
 .track { display: flex; width: max-content; animation: trackScroll 40s linear infinite; }
 .track:hover { animation-play-state: paused; }
 @keyframes trackScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
@@ -479,9 +492,9 @@ body {
   .video-section { padding: 56px 24px; }
 }
 
-/* ── CENTRADO GLOBAL max-width 1200px ── */
+/* ── CENTRADO GLOBAL max-width 1400px ── */
 .nav {
-  padding: 18px max(48px, calc((100vw - 1200px) / 2 + 48px));
+  padding: 18px max(48px, calc((100vw - 1400px) / 2 + 48px));
 }
 
 .hero,
@@ -491,16 +504,16 @@ body {
 .form-section,
 .testi-header,
 .cta-section {
-  padding-left: max(48px, calc((100vw - 1200px) / 2 + 48px));
-  padding-right: max(48px, calc((100vw - 1200px) / 2 + 48px));
+  padding-left: max(48px, calc((100vw - 1400px) / 2 + 48px));
+  padding-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
   max-width: 100%;
 }
 
 .proof-row,
 .qs-block,
 .utamed-strip {
-  padding-left: max(48px, calc((100vw - 1200px) / 2 + 48px));
-  padding-right: max(48px, calc((100vw - 1200px) / 2 + 48px));
+  padding-left: max(48px, calc((100vw - 1400px) / 2 + 48px));
+  padding-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
 }
 
 /* ── MÍNIMO 16px en elementos secundarios ── */
