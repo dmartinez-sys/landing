@@ -6,8 +6,8 @@
 // ── CONFIGURACIÓN ────────────────────────────
 const CONFIG = {
   supabase: {
-    url:     'TU_SUPABASE_URL',       // https://xxxx.supabase.co
-    anonKey: 'TU_SUPABASE_ANON_KEY',  // eyJhbGci...
+    url:     'https://bktksksnthltjewpfrm.supabase.co',
+    anonKey: 'sb_publishable_qydLZG5nAaofIQLoXkePxA_MFSH6Lfc',
   },
   crm: {
     endpoint:    'https://www.crm3c.com/form/index.php',
@@ -106,12 +106,11 @@ async function sendWebhook(data, leadId) {
   });
 
   try {
-    const res = await fetch(`${c.endpoint}?${params.toString()}`, {
+    await fetch(`${c.endpoint}?${params.toString()}`, {
       method: 'GET',
       mode:   'no-cors'  // CRM3C no devuelve CORS headers
     });
 
-    // no-cors siempre es "opaque" — asumimos OK si no lanza
     await sb.update(leadId, {
       webhook_status:  'sent',
       webhook_sent_at: new Date().toISOString()
@@ -130,12 +129,12 @@ async function sendWebhook(data, leadId) {
 // ── VALIDACIÓN BÁSICA ─────────────────────────
 function validate(fields) {
   const errors = [];
-  if (!fields.nombre.trim())   errors.push('El nombre es obligatorio');
+  if (!fields.nombre.trim())     errors.push('El nombre es obligatorio');
   if (!fields.email.trim() || !fields.email.includes('@'))
-                                errors.push('El email no es válido');
-  if (!fields.telefono.trim()) errors.push('El teléfono es obligatorio');
-  if (!fields.estudios)        errors.push('Selecciona tu nivel de estudios');
-  if (!fields.modalidad)       errors.push('Selecciona una modalidad');
+                                  errors.push('El email no es válido');
+  if (!fields.telefono.trim())   errors.push('El teléfono es obligatorio');
+  if (!fields.estudios)          errors.push('Selecciona tu nivel de estudios');
+  if (!fields.modalidad)         errors.push('Selecciona una modalidad');
   if (!fields.motivacion.trim()) errors.push('Cuéntanos tu motivación');
   return errors;
 }
@@ -144,15 +143,13 @@ function validate(fields) {
 async function handleSubmit(e) {
   e.preventDefault();
 
-  const btn     = document.getElementById('submit-btn');
-  const msgOk   = document.getElementById('msg-ok');
-  const msgErr  = document.getElementById('msg-err');
+  const btn    = document.getElementById('submit-btn');
+  const msgOk  = document.getElementById('msg-ok');
+  const msgErr = document.getElementById('msg-err');
 
-  // Limpiar mensajes previos
   msgOk.style.display  = 'none';
   msgErr.style.display = 'none';
 
-  // Recoger datos del formulario
   const utms = getUTMs();
   const geo  = getPais();
   const fields = {
@@ -168,7 +165,6 @@ async function handleSubmit(e) {
     ...utms
   };
 
-  // Validar
   const errors = validate(fields);
   if (errors.length) {
     msgErr.textContent   = errors[0];
@@ -176,12 +172,11 @@ async function handleSubmit(e) {
     return;
   }
 
-  // Estado de carga
   btn.disabled    = true;
   btn.textContent = 'Enviando...';
 
   try {
-    // 1. Guardar en Supabase (backup)
+    // 1. Guardar en Supabase
     const lead = await sb.insert(fields);
 
     // 2. Disparar webhook CRM3C
@@ -192,7 +187,6 @@ async function handleSubmit(e) {
     msgOk.style.display = 'block';
 
     if (!webhookOk) {
-      // Lead guardado pero webhook falló — no bloqueamos al usuario
       console.warn('Webhook falló. Lead guardado en Supabase con status=failed');
     }
 
@@ -215,7 +209,6 @@ function selMod(el) {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('lead-form').addEventListener('submit', handleSubmit);
 
-  // Guardar UTMs en sessionStorage por si el usuario navega
   const utms = getUTMs();
   Object.entries(utms).forEach(([k,v]) => {
     if (v) sessionStorage.setItem(k, v);
