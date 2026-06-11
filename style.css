@@ -50,28 +50,34 @@ body {
 
 /* ── NAV ── */
 .nav {
-  padding: 18px 0;
   border-bottom: 1px solid var(--border);
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(10px);
-  position: sticky; top: 40px; z-index: 99;
+  position: sticky;
+  top: 40px;
+  z-index: 99;
+  width: 100%;
 }
 .nav-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 max(48px, calc((100vw - 1400px) / 2 + 48px));
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 64px;
 }
-.nav-logo { height: 52px; display: block; filter: invert(1); }
+.nav-logo { height: 44px; display: block; }
 .nav-cta {
-  background: var(--teal); color: #fff;
-  border: none; padding: 9px 20px;
-  border-radius: var(--r-pill);
-  font-size: 13px; font-weight: 600;
-  cursor: pointer; font-family: var(--font);
-  transition: background .2s;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  white-space: nowrap;
 }
 .nav-cta:hover { background: var(--teal2); }
 
@@ -347,13 +353,18 @@ body {
 }
 
 /* ── TESTIMONIOS ── */
-.testi-section { padding: 96px 0; background: var(--light); overflow: hidden; padding-left: 0; padding-right: 0; }
+.testi-section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+  background: var(--light);
+  overflow: hidden;
+  width: 100%;
+}
 .testi-header {
   max-width: 1400px;
   margin: 0 auto;
-  padding-left: max(48px, calc((100vw - 1400px) / 2 + 48px));
-  padding-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
-  margin-bottom: 40px;
+  padding: 0 64px;
+  margin-bottom: 48px;
 }
 .testi-eyebrow { font-size: 14px; font-weight: 500; color: var(--teal); letter-spacing: .05em; margin-bottom: 10px; }
 .testi-title {
@@ -361,18 +372,35 @@ body {
   font-weight: 700; color: var(--black);
   letter-spacing: -.03em; line-height: 1.02;
 }
-.track-wrap { position: relative; overflow: hidden; }
-.track-wrap::before,
-.track-wrap::after {
-  content: ''; position: absolute; top: 0; bottom: 0; z-index: 2; pointer-events: none;
+.track-wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
-.track-wrap::before { left: 0; width: max(48px, calc((100vw - 1400px) / 2 + 48px)); background: linear-gradient(to right, var(--light), transparent); }
-.track-wrap::after  { right: 0; width: max(48px, calc((100vw - 1400px) / 2 + 48px)); background: linear-gradient(to left, var(--light), transparent); }
-.track { display: flex; width: max-content; animation: trackScroll 40s linear infinite; }
+.track-wrap::before {
+  content: '';
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 64px; z-index: 2; pointer-events: none;
+  background: linear-gradient(to right, var(--light), transparent);
+}
+.track-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; right: 0;
+  width: 64px; z-index: 2; pointer-events: none;
+  background: linear-gradient(to left, var(--light), transparent);
+}
+.track {
+  display: flex;
+  width: max-content;
+  animation: trackScroll 40s linear infinite;
+}
 .track:hover { animation-play-state: paused; }
-@keyframes trackScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes trackScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .testi-card {
-  width: 340px; flex-shrink: 0;
+  width: 360px; flex-shrink: 0;
   padding: 28px 36px 28px 28px;
   border-left: 2px solid var(--teal);
   transition: opacity .2s;
@@ -381,13 +409,13 @@ body {
 .testi-text { font-size: 20px; color: var(--black); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
 .testi-bottom { display: flex; align-items: center; gap: 10px; }
 .testi-avatar {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 36px; height: 36px; border-radius: 50%;
   background: var(--teal);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
 }
-.testi-name { font-size: 13px; font-weight: 600; color: var(--black); }
-.testi-role { font-size: 12px; color: var(--gray); margin-top: 1px; }
+.testi-name { font-size: 15px; font-weight: 600; color: var(--black); }
+.testi-role { font-size: 14px; color: var(--gray); margin-top: 1px; }
 
 /* ── CTA FINAL ── */
 .cta-section { padding: 120px 48px; text-align: center; background: var(--white); }
